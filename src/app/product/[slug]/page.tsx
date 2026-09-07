@@ -1,27 +1,26 @@
-import { CATALOG, getPrice, stockStatus } from "@/lib/catalog";
+"use client";
+import { useState, use } from "react";
+import { CATALOG } from "@/lib/catalog";
 import { notFound } from "next/navigation";
 import ProductBuyBox from "@/components/ProductBuyBox";
 
-export function generateStaticParams() {
-  return CATALOG.map((p) => ({ slug: p.slug }));
-}
-
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  let family = CATALOG.find((p) => p.slug === slug) as any;
-  if (!family) {
-    try {
-      const base = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_APP_URL || "";
-      if (base) {
-        const res = await fetch(`${base}/api/products`, { cache: "no-store" });
-        if (res.ok) {
-          const data = await res.json();
-          family = (data.products as any[]).find((p: any) => p.slug === slug);
-        }
-      }
-    } catch {}
-  }
+export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
+  const family = CATALOG.find((p) => p.slug === slug);
   if (!family) notFound();
+
+  const [activeVariantId, setActiveVariantId] = useState(family.variants[0]?.id);
+  const [activeImage, setActiveImage] = useState(family.images[0]);
+
+  const activeVariant = family.variants.find((v) => v.id === activeVariantId) || family.variants[0];
+
+  const handleVariantChange = (vid: string) => {
+    setActiveVariantId(vid);
+    const v = family.variants.find((x) => x.id === vid);
+    if (v) setActiveImage(v.image.replace("w=400", "w=800"));
+  };
+
+  const handleThumb = (img: string) => setActiveImage(img);
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-6">
@@ -30,27 +29,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </nav>
 
       <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8">
-        {/* Gallery */}
+        {/* Gallery — variant-aware */}
         <div className="space-y-3">
           <div className="aspect-square rounded-xl overflow-hidden bg-cream-paper border border-border">
             {/* eslint-disable @next/next/no-img-element */}
-            <img src={family.images[0]} alt={family.name} className="w-full h-full object-cover" />
+            <img src={activeImage} alt={family.name} className="w-full h-full object-cover transition" />
+            <p className="text-xs text-center py-1 bg-white/80 backdrop-blur">Showing: {activeVariant.name}</p>
           </div>
           <div className="grid grid-cols-4 gap-2">
             {family.images.map((img: string, i: number) => (
-              <div key={i} className={`aspect-square rounded-lg overflow-hidden border ${i === 0 ? "border-plum" : "border-border"} bg-white`}>
+              <button key={i} onClick={() => handleThumb(img)} className={`aspect-square rounded-lg overflow-hidden border ${activeImage === img ? "border-plum ring-2 ring-plum/20" : "border-border"} bg-white`}>
                 <img src={img} alt="" className="w-full h-full object-cover" />
-              </div>
+              </button>
             ))}
-            {family.variants.slice(0, 2).map((v: any) => (
-              <div key={v.id} className="aspect-square rounded-lg overflow-hidden border border-border">
+            {family.variants.map((v) => (
+              <button key={v.id} onClick={() => handleVariantChange(v.id)} className={`aspect-square rounded-lg overflow-hidden border ${activeVariantId === v.id ? "border-plum ring-2 ring-plum/20" : "border-border"} relative`}>
                 <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
-              </div>
+                <span className={`absolute bottom-1 left-1 text-[10px] px-1.5 py-0.5 rounded-full ${activeVariantId === v.id ? "bg-plum text-cream" : "bg-white/90"}`}>{v.attributes.colour}</span>
+              </button>
             ))}
           </div>
+          <p className="text-xs text-ink-muted text-center">Tap a colour/finish below or on the right — image updates to match.</p>
         </div>
 
-        <ProductBuyBox family={family} />
+        <ProductBuyBox family={family} variantId={activeVariantId} onVariantChange={handleVariantChange} />
       </div>
 
       <div className="mt-10 bg-white rounded-xl border border-border p-6">

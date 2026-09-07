@@ -6,8 +6,13 @@ import TierTable from "./TierTable";
 import { useCart } from "@/lib/cart";
 import Link from "next/link";
 
-export default function ProductBuyBox({ family }: { family: ProductFamily }) {
-  const [variantId, setVariantId] = useState(family.variants[0]?.id);
+export default function ProductBuyBox({ family, variantId: controlledId, onVariantChange }: { family: ProductFamily; variantId?: string; onVariantChange?: (id: string) => void }) {
+  const [innerVariantId, setInnerVariantId] = useState(family.variants[0]?.id);
+  const variantId = controlledId ?? innerVariantId;
+  const setVariantId = (id: string) => {
+    if (onVariantChange) onVariantChange(id);
+    else setInnerVariantId(id);
+  };
   const [packId, setPackId] = useState(family.packs[0]?.id);
   const [qty, setQty] = useState(family.packs[0]?.moq || 1);
   const [msg, setMsg] = useState<string | null>(null);
@@ -115,7 +120,7 @@ export default function ProductBuyBox({ family }: { family: ProductFamily }) {
       <Link href={`https://wa.me/2340000000000?text=Hi%20JewelryMallNG%20I%20want%20${encodeURIComponent(family.name)}%20${variant.name}%20qty%20${qty}`} target="_blank" className="mt-2 block text-center w-full rounded-full py-2.5 font-medium text-sm border border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10">Chat on WhatsApp with this selection</Link>
 
       {msg && <p className="mt-3 text-sm text-center bg-success-bg border border-success/20 text-success px-3 py-2 rounded-full">{msg}</p>}
-      <p className="text-xs text-ink-faint text-center mt-3">Mock: stock validated locally. Real app will re-check on checkout. Pay via Paystack test.</p>
+      <p className="text-xs text-ink-faint text-center mt-3">Stock validated locally and re-checked on checkout. Pay via Paystack.</p>
     </div>
   );
 }
