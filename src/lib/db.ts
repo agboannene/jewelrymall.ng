@@ -49,5 +49,11 @@ function init(db: any) {
       actor TEXT NOT NULL,
       order_ref TEXT
     );
+    CREATE TABLE IF NOT EXISTS products (
+      id TEXT PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      data_json TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
   `);
 }

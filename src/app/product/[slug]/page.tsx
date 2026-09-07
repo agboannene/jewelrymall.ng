@@ -8,7 +8,19 @@ export function generateStaticParams() {
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const family = CATALOG.find((p) => p.slug === slug);
+  let family = CATALOG.find((p) => p.slug === slug) as any;
+  if (!family) {
+    try {
+      const base = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_APP_URL || "";
+      if (base) {
+        const res = await fetch(`${base}/api/products`, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          family = (data.products as any[]).find((p: any) => p.slug === slug);
+        }
+      }
+    } catch {}
+  }
   if (!family) notFound();
 
   return (

@@ -6,7 +6,25 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
   const params = await searchParams;
   const q = params.q || "";
   const cat = params.cat || "";
-  let products = q ? searchCatalog(q) : CATALOG;
+
+  // fetch live products (static + DB) so New Family appears in store
+  let allProducts: typeof CATALOG = CATALOG;
+  try {
+    const base = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_APP_URL || "";
+    if (base) {
+      const res = await fetch(`${base}/api/products`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.products) && data.products.length) allProducts = data.products;
+      }
+    }
+  } catch {}
+  const searchIn = (arr: typeof allProducts, query: string) => {
+    if (!query.trim()) return arr;
+    const qq = query.toLowerCase();
+    return arr.filter((p) => p.name.toLowerCase().includes(qq) || p.description.toLowerCase().includes(qq) || p.category.toLowerCase().includes(qq) || p.variants.some((v) => v.name.toLowerCase().includes(qq)));
+  };
+  let products = q ? searchIn(allProducts, q) : allProducts;
   if (cat) products = products.filter((p) => p.category === cat);
 
   return (
@@ -15,7 +33,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       <section className="bg-cream-paper border-b border-border">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-10 lg:py-14 grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
           <div>
-            <span className="inline-flex bg-blush-pale text-plum border border-blush px-3 py-1 rounded-full text-xs font-semibold tracking-wide">NEW COLLECTION • {CATALOG.length} PRODUCTS</span>
+            <span className="inline-flex bg-blush-pale text-plum border border-blush px-3 py-1 rounded-full text-xs font-semibold tracking-wide">NEW COLLECTION • {allProducts.length} PRODUCTS</span>
             <h1 className="font-serif text-[32px] lg:text-[48px] leading-none mt-4">Shine Clearly.</h1>
             <p className="text-ink-muted mt-3 text-[16px] leading-7 max-w-[52ch]">Nigeria&apos;s jewelry mall — every colour, pack, and quantity price shown upfront. Retail from 1 pc, wholesale packs up to 50. Verified payments, real stock, WhatsApp close.</p>
             <div className="flex flex-wrap gap-3 mt-6">
@@ -29,7 +47,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {CATALOG.slice(0, 6).map((p) => (
+            {allProducts.slice(0, 6).map((p) => (
               <div key={p.id} className="rounded-xl overflow-hidden border border-border bg-white shadow-card aspect-square">
                 <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
               </div>
@@ -41,7 +59,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       {/* Filters */}
       <div id="catalog" className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-wrap items-center gap-2">
-          <Link href="/" className={`px-4 py-2 rounded-full text-sm border ${!cat ? "bg-plum text-cream border-plum" : "bg-white border-border hover:border-plum/30"}`}>All ({CATALOG.length})</Link>
+          <Link href="/" className={`px-4 py-2 rounded-full text-sm border ${!cat ? "bg-plum text-cream border-plum" : "bg-white border-border hover:border-plum/30"}`}>All ({allProducts.length})</Link>
           {["earrings", "necklaces", "bracelets", "sets", "rings"].map((c) => (
             <Link key={c} href={`/?cat=${c}`} className={`px-4 py-2 rounded-full text-sm border capitalize ${cat === c ? "bg-plum text-cream border-plum" : "bg-white border-border hover:border-plum/30"}`}>{c}</Link>
           ))}
