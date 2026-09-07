@@ -28,10 +28,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       <div className="flex-1 min-w-0 bg-cream min-h-full overflow-hidden">
-        <div className="h-10 bg-white border-b flex items-center justify-end px-3 sm:px-4 gap-3 sticky top-14 z-20 lg:static">
+        <div className="h-10 bg-white border-b flex items-center justify-end px-3 sm:px-4 gap-3">
           <AdminUserNav />
         </div>
-        <div className="lg:hidden border-b bg-white">
+        <div className="lg:hidden border-b bg-white sticky top-14 z-10">
           <div className="flex gap-2 p-2 sm:p-3 overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory">
             <Link href="/admin" className="px-3 py-1.5 rounded-full bg-plum text-cream text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Overview</Link>
             <Link href="/admin/products" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Products</Link>
