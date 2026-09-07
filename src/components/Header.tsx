@@ -10,10 +10,10 @@ export default function Header() {
   const [q, setQ] = useState("");
   return (
     <header className="sticky top-0 z-30 bg-plum text-cream shadow-[0_2px_12px_rgba(43,15,43,0.22)]">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-gold text-plum flex items-center justify-center font-serif font-bold text-sm">JM</div>
-          <span className="font-serif font-semibold tracking-wide text-[17px] hidden sm:block">JEWELRYMALL<span className="bg-cream text-plum px-1.5 py-0.5 rounded ml-1 text-xs font-sans font-bold">NG</span></span>
+      <div className="mx-auto max-w-[1280px] px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center gap-2 sm:gap-4 min-w-0">
+        <Link href="/" className="flex items-center gap-2 shrink-0 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-gold text-plum flex items-center justify-center font-serif font-bold text-sm shrink-0">JM</div>
+          <span className="font-serif font-semibold tracking-wide text-[17px] hidden sm:block truncate">JEWELRYMALL<span className="bg-cream text-plum px-1.5 py-0.5 rounded ml-1 text-xs font-sans font-bold">NG</span></span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-6 ml-6 text-sm text-cream/90">
@@ -35,12 +35,12 @@ export default function Header() {
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search studs, hoops, sets, packs..." className="flex-1 outline-none text-sm text-ink placeholder:text-ink-faint bg-transparent" />
         </form>
 
-        <button onClick={() => setDrawerOpen(true)} aria-label="Open cart" className="relative ml-1 sm:ml-2 bg-cream text-plum rounded-full p-2.5 hover:bg-white transition">
-          <ShoppingBag className="w-5 h-5" />
-          {count > 0 && <span className="absolute -top-1 -right-1 bg-gold text-plum text-[11px] font-bold w-5 h-5 rounded-full grid place-items-center border-2 border-plum">{count}</span>}
+        <button onClick={() => setDrawerOpen(true)} aria-label="Open cart" className="relative ml-auto sm:ml-2 bg-cream text-plum rounded-full p-2 sm:p-2.5 hover:bg-white transition shrink-0">
+          <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+          {count > 0 && <span className="absolute -top-1 -right-1 bg-gold text-plum text-[10px] sm:text-[11px] font-bold w-5 h-5 rounded-full grid place-items-center border-2 border-plum">{count}</span>}
         </button>
 
-        <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
+        <button className="lg:hidden p-1.5 sm:p-2 shrink-0" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>

@@ -27,21 +27,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      <div className="flex-1 min-w-0 bg-cream min-h-full">
-        <div className="h-10 bg-white border-b flex items-center justify-end px-4 gap-3 sticky top-14 z-20 lg:static">
+      <div className="flex-1 min-w-0 bg-cream min-h-full overflow-hidden">
+        <div className="h-10 bg-white border-b flex items-center justify-end px-3 sm:px-4 gap-3 sticky top-14 z-20 lg:static">
           <AdminUserNav />
         </div>
-        <div className="lg:hidden flex gap-2 p-3 overflow-auto border-b bg-white">
-          <Link href="/admin" className="px-3 py-1.5 rounded-full bg-plum text-cream text-sm shrink-0">Overview</Link>
-          <Link href="/admin/products" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Products</Link>
-          <Link href="/admin/orders" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Orders</Link>
-          <Link href="/admin/inventory" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Stock</Link>
-          <Link href="/admin/customers" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Customers</Link>
-          <Link href="/admin/conversations" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Chats</Link>
-          <Link href="/admin/staff" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Staff</Link>
-          <Link href="/admin/reports" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Reports</Link>
+        <div className="lg:hidden border-b bg-white">
+          <div className="flex gap-2 p-2 sm:p-3 overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory">
+            <Link href="/admin" className="px-3 py-1.5 rounded-full bg-plum text-cream text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Overview</Link>
+            <Link href="/admin/products" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Products</Link>
+            <Link href="/admin/orders" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Orders</Link>
+            <Link href="/admin/inventory" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Stock</Link>
+            <Link href="/admin/customers" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Customers</Link>
+            <Link href="/admin/conversations" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Chats</Link>
+            <Link href="/admin/staff" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Staff</Link>
+            <Link href="/admin/reports" className="px-3 py-1.5 rounded-full bg-white border text-xs sm:text-sm shrink-0 snap-start whitespace-nowrap">Reports</Link>
+          </div>
         </div>
-        <div className="p-4 sm:p-6 lg:p-8">{children}</div>
+        <div className="p-3 sm:p-4 lg:p-8 overflow-hidden">{children}</div>
       </div>
     </div>
   );
