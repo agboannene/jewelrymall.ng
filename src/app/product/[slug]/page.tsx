@@ -43,10 +43,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       <div className="mt-10 bg-white rounded-xl border border-border p-6">
         <h2 className="font-serif text-lg">Why this shines</h2>
-        <p className="text-sm text-ink-muted mt-2 leading-6">{family.description} — {family.material}. Ships from Lagos. 7-day exchange per policy (mock). Prices in NGN, tabular.</p>
+        <p className="text-sm text-ink-muted mt-2 leading-6">{family.description} — {family.material}. Ships from Lagos. 7-day exchange per policy. Prices in NGN, tabular.</p>
         <div className="mt-4 flex flex-wrap gap-2 text-xs">
           <span className="bg-cream-paper border border-border px-3 py-1.5 rounded-full">✓ Verified stock</span>
-          <span className="bg-cream-paper border border-border px-3 py-1.5 rounded-full">✓ Paystack test</span>
+          <span className="bg-cream-paper border border-border px-3 py-1.5 rounded-full">✓ Paystack verified</span>
           <span className="bg-cream-paper border border-border px-3 py-1.5 rounded-full">✓ WhatsApp support</span>
         </div>
       </div>

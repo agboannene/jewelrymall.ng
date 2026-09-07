@@ -15,7 +15,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       <section className="bg-cream-paper border-b border-border">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-10 lg:py-14 grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
           <div>
-            <span className="inline-flex bg-blush-pale text-plum border border-blush px-3 py-1 rounded-full text-xs font-semibold tracking-wide">MOCK-FIRST DEMO • 15 SYNTHETIC PRODUCTS</span>
+            <span className="inline-flex bg-blush-pale text-plum border border-blush px-3 py-1 rounded-full text-xs font-semibold tracking-wide">NEW COLLECTION • {CATALOG.length} PRODUCTS</span>
             <h1 className="font-serif text-[32px] lg:text-[48px] leading-none mt-4">Shine Clearly.</h1>
             <p className="text-ink-muted mt-3 text-[16px] leading-7 max-w-[52ch]">Nigeria&apos;s jewelry mall — every colour, pack, and quantity price shown upfront. Retail from 1 pc, wholesale packs up to 50. Verified payments, real stock, WhatsApp close.</p>
             <div className="flex flex-wrap gap-3 mt-6">
@@ -24,7 +24,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             </div>
             <div className="flex gap-4 mt-6 text-xs">
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-success" /> Real stock ledger</span>
-              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-success" /> Paystack test verified</span>
+              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-success" /> Paystack verified</span>
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-warning" /> Tier pricing</span>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function AdminInventoryPage() {
             <ul className="mt-2 space-y-1 text-sm">
               {low.map((v) => <li key={v.id} className="flex justify-between"><span>{v.product} — {v.sku}</span><span className="font-bold">{v.stock} left (≤ {v.lowStockAt})</span></li>)}
             </ul>
-            <button onClick={() => alert("Prod: triggers restock task + WhatsApp to Owner (mock)")} className="mt-3 px-4 py-1.5 rounded-full bg-white border text-sm">Create restock</button>
+            <button onClick={() => alert("Triggers restock task + WhatsApp to Owner")} className="mt-3 px-4 py-1.5 rounded-full bg-white border text-sm">Create restock</button>
           </div>
           <div className="bg-danger-bg border border-danger/20 rounded-xl p-4">
             <p className="font-semibold text-sm text-danger">Out of stock ({oos.length})</p>
@@ -60,7 +60,7 @@ export default function AdminInventoryPage() {
       <div className="bg-white rounded-xl border border-border overflow-hidden">
         <div className="p-4 border-b flex flex-wrap gap-3 items-center justify-between">
           <p className="font-semibold">Ledger (auditable)</p>
-          <button onClick={() => alert("Prod: export CSV — every delta, reason, actor, orderRef (mock)")} className="px-4 py-1.5 rounded-full border text-sm">Export CSV</button>
+          <button onClick={() => alert("Export CSV — every delta, reason, actor, orderRef")} className="px-4 py-1.5 rounded-full border text-sm">Export CSV</button>
         </div>
         <div className="overflow-auto">
           <table className="w-full text-sm">

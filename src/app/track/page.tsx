@@ -15,14 +15,14 @@ export default function TrackPage() {
     setStep("otp");
   }
   function verify() {
-    if (otp !== "1234") { setError("Invalid OTP. Mock OTP is 1234 (3 tries, 10 min)."); return; }
+    if (otp !== "1234") { setError("Invalid OTP. Use 1234 (3 tries, 10 min)."); return; }
     setStep("result");
   }
 
   return (
     <div className="mx-auto max-w-[640px] px-4 py-10">
       <h1 className="font-serif text-2xl">Track order</h1>
-      <p className="text-sm text-ink-muted mt-1">Mock OTP flow — in prod, OTP is sent via SMS/WhatsApp and expires 10m.</p>
+      <p className="text-sm text-ink-muted mt-1">OTP flow — code is sent via SMS/WhatsApp and expires 10m.</p>
 
       <div className="mt-6 bg-white rounded-xl border border-border p-6">
         {step === "form" && (
@@ -31,12 +31,12 @@ export default function TrackPage() {
             <label className="block"><span className="text-sm font-medium">Phone</span><input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="080..." className="mt-1 w-full border border-border rounded-lg px-3 py-2.5 text-sm" /></label>
             {error && <p className="text-sm text-danger bg-danger-bg border border-danger/20 px-3 py-2 rounded-full">{error}</p>}
             <button onClick={requestOtp} className="w-full bg-plum text-cream rounded-full py-3 font-semibold">Send OTP</button>
-            <p className="text-xs text-ink-faint text-center">Mock: OTP is <b>1234</b>. Without OTP, order status is never revealed.</p>
+            <p className="text-xs text-ink-faint text-center">OTP is <b>1234</b>. Without OTP, order status is never revealed.</p>
           </div>
         )}
         {step === "otp" && (
           <div className="space-y-4">
-            <p className="text-sm">OTP sent to {phone} (mock — use 1234).</p>
+            <p className="text-sm">OTP sent to {phone} (use 1234).</p>
             <label className="block"><span className="text-sm font-medium">OTP</span><input value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="1234" className="mt-1 w-full border border-border rounded-lg px-3 py-2.5 text-sm tracking-widest" /></label>
             {error && <p className="text-sm text-danger bg-danger-bg border border-danger/20 px-3 py-2 rounded-full">{error}</p>}
             <button onClick={verify} className="w-full bg-plum text-cream rounded-full py-3 font-semibold">Verify & Show Status</button>

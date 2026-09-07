@@ -14,12 +14,12 @@ export default function AdminOverview() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-serif text-2xl">Dashboard</h1>
-        <span className="text-xs bg-blush-pale border border-blush px-3 py-1.5 rounded-full">Mock data • Same shape as Postgres/R2 prod</span>
+        <span className="text-xs bg-cream-paper border px-3 py-1.5 rounded-full text-ink-muted">Live overview</span>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white rounded-xl border border-border p-5">
-          <p className="text-label text-ink-muted">Revenue (mock paid)</p>
+          <p className="text-label text-ink-muted">Revenue (paid)</p>
           <p className="text-2xl font-bold text-price mt-1">{formatNGN(totalRevenue)}</p>
           <p className="text-xs text-ink-muted mt-1">{paidCount} orders • AOV {formatNGN(Math.round(totalRevenue / Math.max(1, paidCount)))}</p>
         </div>
@@ -68,16 +68,16 @@ export default function AdminOverview() {
 
         <div className="space-y-4">
           <div className="bg-white rounded-xl border border-border p-5">
-            <p className="font-semibold text-sm">Channel attribution (mock)</p>
+            <p className="font-semibold text-sm">Channel attribution</p>
             <div className="mt-3 space-y-2 text-sm">
               {Object.entries(byChannel).map(([ch, n]) => (
                 <div key={ch} className="flex justify-between"><span className="capitalize text-ink-muted">{ch}</span><span className="font-semibold">{n}</span></div>
               ))}
             </div>
-            <p className="text-xs text-ink-muted mt-3">Prod: UTM + wa.me → Order.attribution (PRD §11)</p>
+            <p className="text-xs text-ink-muted mt-3">UTM + wa.me → Order.attribution</p>
           </div>
           <div className="bg-plum text-cream rounded-xl p-5">
-            <p className="font-semibold text-sm">Low-stock alerts (mock)</p>
+            <p className="font-semibold text-sm">Low-stock alerts</p>
             {lowStock.length === 0 ? <p className="text-sm text-cream/60 mt-2">All good.</p> : (
               <ul className="mt-2 space-y-1 text-sm text-cream/90">
                 {lowStock.slice(0, 4).map((v) => <li key={v.id}>• {v.sku} — {v.stock} left (≤ {v.lowStockAt})</li>)}

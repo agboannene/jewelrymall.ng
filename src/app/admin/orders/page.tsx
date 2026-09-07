@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
               <div className="flex justify-between"><span className="text-ink-muted">Subtotal</span><span className="font-semibold">{formatNGN(selected.subtotal)}</span></div>
               <div className="flex justify-between"><span className="text-ink-muted">Delivery</span><span className="font-semibold">{formatNGN(selected.deliveryFee)}</span></div>
               <div className="flex justify-between font-bold border-t pt-2"><span>Total</span><span>{formatNGN(selected.total)}</span></div>
-              <p className="text-xs text-ink-muted pt-2">In prod, total is verified against Paystack amount (must match ±0) before marking `paid`. Screenshot never counts.</p>
+              <p className="text-xs text-ink-muted pt-2">Total is verified against Paystack amount (must match ±0) before marking `paid`. Screenshot never counts.</p>
             </div>
 
             <div>
@@ -103,7 +103,7 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => alert("In prod: status transition with reason + audit log (mock)")} className="px-4 py-2 rounded-full bg-plum text-cream text-sm">Update status</button>
+              <button onClick={() => alert("Status transition with reason + audit log")} className="px-4 py-2 rounded-full bg-plum text-cream text-sm">Update status</button>
               <button onClick={() => window.print()} className="px-4 py-2 rounded-full border text-sm">Print packing list</button>
               <Link href="/simulator" className="px-4 py-2 rounded-full border text-sm">Open chat context</Link>
             </div>

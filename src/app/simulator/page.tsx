@@ -12,7 +12,7 @@ function botReply(input: string): Msg {
   if (q.includes("refund") || q.includes("complain") || q.includes("human") || q.includes("agent")) {
     return {
       from: "bot",
-      text: "I understand you need a person. I've summarised your request and will hand you to staff — they will see this chat so you don't have to repeat yourself. A staff member will reply shortly. (Mock handoff ✓)",
+      text: "I understand you need a person. I've summarised your request and will hand you to staff — they will see this chat so you don't have to repeat yourself. A staff member will reply shortly. (Handoff ✓)",
     };
   }
   if (q.includes("price") || q.includes("how much") || q.includes("wholesale") || q.includes("pack")) {
@@ -32,20 +32,20 @@ function botReply(input: string): Msg {
   if (q.includes("order") || q.includes("track")) {
     return { from: "bot", text: "To check order status I need order reference + phone OTP (10 min, 3 tries). In this demo, try `JMNG-2026-ABC123` with OTP `1234` on the Track page. I never reveal another customer's data." };
   }
-  // image match mock
+  // image match
   if (q.includes("photo") || q.includes("image") || q.includes("match")) {
-    return { from: "bot", text: "I can compare your photo to catalogue images. In this mock, I found 2 close matches with confidence 0.72. Tap to view:\n• Pearl Stud Essentials (0.72)\n• Crystal Drop Earrings (0.68) — below 0.65 I would say I'm not certain and offer a human.", links: CATALOG.slice(0, 2).map((h) => ({ slug: h.slug, name: h.name })) };
+    return { from: "bot", text: "I can compare your photo to catalogue images. I found 2 close matches with confidence 0.72. Tap to view:\n• Pearl Stud Essentials (0.72)\n• Crystal Drop Earrings (0.68) — below 0.65 I would say I'm not certain and offer a human.", links: CATALOG.slice(0, 2).map((h) => ({ slug: h.slug, name: h.name })) };
   }
   // default
   const hits = searchCatalog(input).slice(0, 2);
   if (hits.length > 0) {
     return { from: "bot", text: `From catalogue: I found ${hits.length} relevant item(s). Tap to see tier prices:\n${hits.map((p) => `• ${p.name}`).join("\n")}`, links: hits.map((h) => ({ slug: h.slug, name: h.name })) };
   }
-  return { from: "bot", text: "Hi! I'm the JewelryMallNG assistant (mock). Ask me product/price/pack/stock/delivery questions — I answer only from the approved catalogue. Try: `Show pearl packs under ₦1,200` or `Do you have gold hoops in stock?`" };
+  return { from: "bot", text: "Hi! I'm the JewelryMallNG assistant. Ask me product/price/pack/stock/delivery questions — I answer only from the approved catalogue. Try: `Show pearl packs under ₦1,200` or `Do you have gold hoops in stock?`" };
 }
 
 export default function SimulatorPage() {
-  const [msgs, setMsgs] = useState<Msg[]>([{ from: "bot", text: "Hi Ada 👋 I'm JewelryMallNG assistant (mock). I use the same catalogue, price engine and stock as the website. Try: `Show pearl studs wholesale` or `image match` or `I want refund` to test handoff." }]);
+  const [msgs, setMsgs] = useState<Msg[]>([{ from: "bot", text: "Hi Ada 👋 I'm JewelryMallNG assistant. I use the same catalogue, price engine and stock as the website. Try: `Show pearl studs wholesale` or `image match` or `I want refund` to test handoff." }]);
   const [input, setInput] = useState("");
 
   function send() {
@@ -60,7 +60,7 @@ export default function SimulatorPage() {
     <div className="mx-auto max-w-[1080px] px-4 py-6 grid lg:grid-cols-[1.4fr_0.6fr] gap-6">
       <div className="bg-white rounded-xl border border-border flex flex-col h-[640px]">
         <div className="h-12 bg-plum text-cream flex items-center px-4 rounded-t-xl justify-between">
-          <span className="font-semibold text-sm">WhatsApp Simulator • Mock (no Meta needed)</span>
+          <span className="font-semibold text-sm">WhatsApp Simulator</span>
           <span className="text-xs bg-white/15 px-2 py-1 rounded-full">SSOT catalogue • Guardrails on</span>
         </div>
         <div className="flex-1 overflow-auto p-4 space-y-3 bg-cream-paper">

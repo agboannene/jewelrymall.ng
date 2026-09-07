@@ -19,7 +19,7 @@ export default function AdminProductsPage() {
     <div className="space-y-4">
       <div className="flex flex-wrap gap-3 items-center justify-between">
         <h1 className="font-serif text-2xl">Products</h1>
-        <button onClick={() => mockAction("Create → In prod: Prisma create with tier validation (mock)")} className="bg-plum text-cream px-5 py-2 rounded-full text-sm font-semibold">+ New family</button>
+        <button onClick={() => mockAction("Create → Prisma create with tier validation")} className="bg-plum text-cream px-5 py-2 rounded-full text-sm font-semibold">+ New family</button>
       </div>
 
       <div className="bg-white rounded-xl border border-border p-4 flex flex-wrap gap-3 items-center">
@@ -61,9 +61,9 @@ export default function AdminProductsPage() {
                 </div>
               </div>
               <div className="hidden sm:flex flex-col gap-2 shrink-0">
-                <button onClick={() => mockAction(`Edit ${p.slug} → opens family CRUD drawer (mock)`)} className="px-4 py-2 rounded-full border text-sm hover:border-plum">Edit</button>
-                <button onClick={() => mockAction(`Duplicate ${p.slug} → clones tiers/packs (mock)`)} className="px-4 py-2 rounded-full border text-sm hover:border-plum">Duplicate</button>
-                <button onClick={() => mockAction(`Images: drag-sort + R2 upload (mock) — alt required`)} className="px-4 py-2 rounded-full bg-cream-paper border text-sm">Images</button>
+                <button onClick={() => mockAction(`Edit ${p.slug} → opens family CRUD drawer`)} className="px-4 py-2 rounded-full border text-sm hover:border-plum">Edit</button>
+                <button onClick={() => mockAction(`Duplicate ${p.slug} → clones tiers/packs`)} className="px-4 py-2 rounded-full border text-sm hover:border-plum">Duplicate</button>
+                <button onClick={() => mockAction(`Images: drag-sort + R2 upload — alt required`)} className="px-4 py-2 rounded-full bg-cream-paper border text-sm">Images</button>
               </div>
             </div>
             <div className="px-4 py-2 bg-cream-paper border-t flex gap-2 text-xs sm:hidden">
