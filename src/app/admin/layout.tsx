@@ -1,4 +1,6 @@
 import Link from "next/link";
+import AdminGuard from "@/components/AdminGuard";
+import AdminUserNav from "@/components/AdminUserNav";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -25,14 +27,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       <div className="flex-1 min-w-0 bg-cream min-h-full">
+        <div className="h-10 bg-white border-b flex items-center justify-end px-4 gap-3 sticky top-14 z-20 lg:static">
+          <AdminUserNav />
+        </div>
         {/* Mobile admin nav */}
-        <div className="lg:hidden flex gap-2 p-3 overflow-auto border-b bg-white sticky top-14 z-20">
+        <div className="lg:hidden flex gap-2 p-3 overflow-auto border-b bg-white">
           <Link href="/admin" className="px-3 py-1.5 rounded-full bg-plum text-cream text-sm shrink-0">Overview</Link>
           <Link href="/admin/products" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Products</Link>
           <Link href="/admin/orders" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Orders</Link>
           <Link href="/admin/inventory" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Ledger</Link>
         </div>
-        <div className="p-4 sm:p-6 lg:p-8">{children}</div>
+        <div className="p-4 sm:p-6 lg:p-8">
+          {/* Login page is unguarded, others guarded */}
+          {children}
+        </div>
       </div>
     </div>
   );
