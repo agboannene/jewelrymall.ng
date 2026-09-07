@@ -42,8 +42,11 @@ export default function CheckoutPage() {
           <p className="font-semibold">Order {ref}</p>
           <p className="text-sm text-ink-muted">{name} • {phone} • {zone.label}</p>
           <div className="mt-4 space-y-2 text-sm">
-            {lines.map((l, i) => <div key={i} className="flex justify-between"><span>{l.familyName} × {l.qty}</span><span className="font-semibold">{formatNGN(l.lineTotal)}</span></div>)}
-            <div className="flex justify-between border-t pt-2 font-bold"><span>Total paid</span><span>{formatNGN(total)}</span></div>
+            {lines.map((l, i) => <div key={i} className="flex justify-between"><span>{l.familyName} × {l.qty} <span className="text-ink-muted">({formatNGN(l.unitPrice)}/pc)</span></span><span className="font-semibold">{formatNGN(l.lineTotal)}</span></div>)}
+            <div className="flex justify-between text-ink-muted"><span>Subtotal</span><span className="font-semibold text-ink">{formatNGN(subtotal)}</span></div>
+            <div className="flex justify-between text-ink-muted"><span>Delivery — {zone.label}</span><span className="font-semibold text-ink">{zone.fee === 0 ? "Free" : formatNGN(zone.fee)}</span></div>
+            <div className="flex justify-between border-t pt-2 font-bold text-base"><span>Total paid</span><span>{formatNGN(total)}</span></div>
+            <p className="text-xs text-ink-faint">Subtotal {formatNGN(subtotal)} + Delivery {formatNGN(zone.fee)} = {formatNGN(total)}</p>
           </div>
           <div className="mt-4 bg-cream-paper border border-border rounded-lg p-3 text-xs">
             Packing list generated • Stock ledger decremented (mock) • WhatsApp confirmation would be sent.

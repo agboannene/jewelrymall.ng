@@ -20,10 +20,25 @@ try {
   database = new Database(":memory:");
 }
 
+const getBaseURL = () => {
+  if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
+  return "http://localhost:3000";
+};
+
 export const auth = betterAuth({
   database,
-  secret: process.env.BETTER_AUTH_SECRET || "dev-secret-change-in-prod-32chars!!",
-  baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  secret: process.env.BETTER_AUTH_SECRET || "dev-secret-change-in-prod-32chars!!-jmng2026",
+  baseURL: getBaseURL(),
+  trustedOrigins: [
+    getBaseURL(),
+    "https://jewelrymall-3mkyngkfb-annieennie.vercel.app",
+    "https://jewelrymall.ng",
+    "https://www.jewelrymall.ng",
+    "https://*.vercel.app",
+    "http://localhost:3000",
+  ],
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

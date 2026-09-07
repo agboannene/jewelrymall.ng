@@ -1,12 +1,12 @@
-// JewelryMallNG — Mock Catalog + Price Engine (SSOT)
-// Mirrors PRD §6.2 + §7. Types are kept simple for mock-first (no DB).
+// JewelryMallNG — Mock Catalog + Price Engine (SSOT) — v2 Fixed Images & Sets
+// Mirrors PRD §6.2 + §7. Types kept simple for mock-first.
 
 export type PackType = "single" | "fixed" | "mixed";
 
 export interface PriceTier {
   minQty: number;
-  maxQty: number | null; // null = infinity
-  price: number; // NGN per piece
+  maxQty: number | null;
+  price: number;
 }
 
 export interface PackRule {
@@ -14,8 +14,8 @@ export interface PackRule {
   name: string;
   type: PackType;
   moq: number;
-  size: number; // total pieces in pack (for fixed/mixed) — 1 for single
-  composition?: Record<string, number>; // for fixed e.g. { gold: 4, silver: 4, rosegold: 4 }
+  size: number;
+  composition?: Record<string, number>;
   description: string;
 }
 
@@ -26,7 +26,7 @@ export interface Variant {
   attributes: { colour: string; finish: string; shape?: string };
   stock: number;
   lowStockAt: number;
-  image: string; // placeholder
+  image: string;
 }
 
 export interface ProductFamily {
@@ -39,12 +39,11 @@ export interface ProductFamily {
   images: string[];
   variants: Variant[];
   packs: PackRule[];
-  tiers: PriceTier[]; // tiers are per-product in mock (pack-agnostic for simplicity, but engine supports packId)
+  tiers: PriceTier[];
   isNew?: boolean;
   isWholesaleOnly?: boolean;
 }
 
-// Deterministic price engine (SSOT). Client previews, server commits.
 export function getPrice(family: ProductFamily, qty: number): { unitPrice: number; tier: PriceTier } {
   const tier = family.tiers.find((t) => qty >= t.minQty && (t.maxQty === null || qty <= t.maxQty));
   if (!tier) throw new Error(`No tier for qty ${qty} in ${family.slug}`);
@@ -69,20 +68,19 @@ export function stockStatus(variant: Variant): "in" | "low" | "out" {
   return "in";
 }
 
-// Synthetic catalog — 15 families covering all PRD edge cases
 export const CATALOG: ProductFamily[] = [
   {
     id: "fam-01",
     slug: "pearl-stud-essentials",
     name: "Pearl Stud Essentials",
     category: "earrings",
-    description: "Everyday pearl studs — hypoallergenic, tarnish-resistant. Choose gold, silver or rose.",
+    description: "Everyday pearl studs — hypoallergenic, tarnish-resistant.",
     material: "Gold-plated • Hypoallergenic",
-    images: ["https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80"],
+    images: ["https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80"],
     variants: [
       { id: "v01-gold", sku: "PRL-GLD-RND", name: "White Pearl — Gold", attributes: { colour: "white", finish: "gold", shape: "round" }, stock: 42, lowStockAt: 8, image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80" },
       { id: "v01-silver", sku: "PRL-SLV-RND", name: "White Pearl — Silver", attributes: { colour: "white", finish: "silver", shape: "round" }, stock: 3, lowStockAt: 5, image: "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=400&q=80" },
-      { id: "v01-rose", sku: "PRL-RSG-RND", name: "White Pearl — Rose Gold", attributes: { colour: "white", finish: "rosegold", shape: "round" }, stock: 18, lowStockAt: 6, image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80" },
+      { id: "v01-rose", sku: "PRL-RSG-RND", name: "White Pearl — Rose Gold", attributes: { colour: "white", finish: "rosegold", shape: "round" }, stock: 18, lowStockAt: 6, image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80" },
     ],
     packs: [
       { id: "pack-single", name: "Single Pair", type: "single", moq: 1, size: 1, description: "One pair — retail" },
@@ -99,10 +97,10 @@ export const CATALOG: ProductFamily[] = [
     category: "earrings",
     description: "Lightweight mini hoops for daily wear. 18k gold-plated.",
     material: "18k gold-plated",
-    images: ["https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=800&q=80", "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80"],
+    images: ["https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=800&q=80", "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80"],
     variants: [
-      { id: "v02-gold-20", sku: "HOOP-G-20", name: "Gold — 20mm", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 64, lowStockAt: 10, image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80" },
-      { id: "v02-gold-30", sku: "HOOP-G-30", name: "Gold — 30mm", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 22, lowStockAt: 8, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" },
+      { id: "v02-gold-20", sku: "HOOP-G-20", name: "Gold — 20mm", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 64, lowStockAt: 10, image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&q=80" },
+      { id: "v02-gold-30", sku: "HOOP-G-30", name: "Gold — 30mm", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 22, lowStockAt: 8, image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "Retail" }, { id: "pack-20-fixed", name: "Pack 20", type: "fixed", moq: 20, size: 20, description: "10×20mm + 10×30mm" }],
     tiers: [{ minQty: 1, maxQty: 9, price: 2500 }, { minQty: 10, maxQty: 24, price: 1800 }, { minQty: 25, maxQty: null, price: 1450 }],
@@ -117,7 +115,7 @@ export const CATALOG: ProductFamily[] = [
     images: ["https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=800&q=80"],
     variants: [
       { id: "v03-gold", sku: "CHN-GLD", name: "Gold", attributes: { colour: "gold", finish: "gold" }, stock: 0, lowStockAt: 5, image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80" },
-      { id: "v03-silver", sku: "CHN-SLV", name: "Silver", attributes: { colour: "silver", finish: "silver" }, stock: 14, lowStockAt: 5, image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&q=80" },
+      { id: "v03-silver", sku: "CHN-SLV", name: "Silver", attributes: { colour: "silver", finish: "silver" }, stock: 14, lowStockAt: 5, image: "https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }],
     tiers: [{ minQty: 1, maxQty: 5, price: 5500 }, { minQty: 6, maxQty: null, price: 4200 }],
@@ -127,7 +125,7 @@ export const CATALOG: ProductFamily[] = [
     slug: "beaded-bracelet-stack",
     name: "Beaded Bracelet Stack (Set of 3)",
     category: "bracelets",
-    description: "Pastel bead stacks — sold as set of 3. Great gift.",
+    description: "Pastel bead stacks — sold as set of 3.",
     material: "Acrylic beads • Elastic",
     images: ["https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80"],
     variants: [
@@ -144,9 +142,9 @@ export const CATALOG: ProductFamily[] = [
     category: "earrings",
     description: "Sparkle drops for evenings.",
     material: "Crystal • Gold-plated hook",
-    images: ["https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=800&q=80"],
+    images: ["https://images.unsplash.com/photo-1630019852942-f89202989a59?w=800&q=80"],
     variants: [
-      { id: "v05-clear-gold", sku: "CRY-CLR-G", name: "Clear — Gold", attributes: { colour: "clear", finish: "gold", shape: "teardrop" }, stock: 27, lowStockAt: 6, image: "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=400&q=80" },
+      { id: "v05-clear-gold", sku: "CRY-CLR-G", name: "Clear — Gold", attributes: { colour: "clear", finish: "gold", shape: "teardrop" }, stock: 27, lowStockAt: 6, image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80" },
       { id: "v05-pink-gold", sku: "CRY-PNK-G", name: "Pink — Gold", attributes: { colour: "pink", finish: "gold", shape: "teardrop" }, stock: 12, lowStockAt: 5, image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }],
@@ -157,10 +155,10 @@ export const CATALOG: ProductFamily[] = [
     slug: "pearl-choker-set",
     name: "Pearl Choker + Earrings Set",
     category: "sets",
-    description: "Bridal favourite — choker with matching studs.",
+    description: "Bridal favourite — choker with matching studs in box.",
     material: "Faux pearl • Gold clasp",
-    images: ["https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80"],
-    variants: [{ id: "v06-white-gold", sku: "SET-PRL-WG", name: "White — Gold", attributes: { colour: "white", finish: "gold" }, stock: 16, lowStockAt: 4, image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80" }],
+    images: ["https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=800&q=80"],
+    variants: [{ id: "v06-white-gold", sku: "SET-PRL-WG", name: "White — Gold", attributes: { colour: "white", finish: "gold" }, stock: 16, lowStockAt: 4, image: "https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=400&q=80" }],
     packs: [{ id: "pack-single", name: "One Set", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-6-fixed", name: "Pack 6", type: "fixed", moq: 6, size: 6, description: "Wholesale" }],
     tiers: [{ minQty: 1, maxQty: 5, price: 8500 }, { minQty: 6, maxQty: null, price: 6800 }],
   },
@@ -174,7 +172,7 @@ export const CATALOG: ProductFamily[] = [
     images: ["https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"],
     variants: [
       { id: "v07-gold", sku: "HRT-GLD", name: "Gold", attributes: { colour: "gold", finish: "gold", shape: "heart" }, stock: 50, lowStockAt: 10, image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80" },
-      { id: "v07-rose", sku: "HRT-RSG", name: "Rose Gold", attributes: { colour: "rose", finish: "rosegold", shape: "heart" }, stock: 35, lowStockAt: 8, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" },
+      { id: "v07-rose", sku: "HRT-RSG", name: "Rose Gold", attributes: { colour: "rose", finish: "rosegold", shape: "heart" }, stock: 35, lowStockAt: 8, image: "https://images.unsplash.com/photo-1603561596112-0a132b757442?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-24-mixed", name: "Mixed 24", type: "mixed", moq: 24, size: 24, description: "Mixed wholesale" }],
     tiers: [{ minQty: 1, maxQty: 11, price: 3000 }, { minQty: 12, maxQty: 23, price: 2200 }, { minQty: 24, maxQty: null, price: 1800 }],
@@ -186,8 +184,8 @@ export const CATALOG: ProductFamily[] = [
     category: "bracelets",
     description: "Beachy cowrie — adjustable.",
     material: "Cowrie • Gold chain",
-    images: ["https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80"],
-    variants: [{ id: "v08-one", sku: "ANK-CWR", name: "One size", attributes: { colour: "natural", finish: "gold" }, stock: 40, lowStockAt: 10, image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&q=80" }],
+    images: ["https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80"],
+    variants: [{ id: "v08-one", sku: "ANK-CWR", name: "One size", attributes: { colour: "natural", finish: "gold" }, stock: 40, lowStockAt: 10, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" }],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }],
     tiers: [{ minQty: 1, maxQty: 9, price: 2200 }, { minQty: 10, maxQty: null, price: 1600 }],
   },
@@ -201,8 +199,8 @@ export const CATALOG: ProductFamily[] = [
     images: ["https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800&q=80"],
     variants: [
       { id: "v09-green", sku: "RESIN-GRN", name: "Green", attributes: { colour: "green", finish: "gold", shape: "round" }, stock: 18, lowStockAt: 6, image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=400&q=80" },
-      { id: "v09-pink", sku: "RESIN-PNK", name: "Pink", attributes: { colour: "pink", finish: "gold", shape: "round" }, stock: 2, lowStockAt: 5, image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80" },
-      { id: "v09-tortoise", sku: "RESIN-TOR", name: "Tortoise", attributes: { colour: "brown", finish: "gold", shape: "round" }, stock: 11, lowStockAt: 5, image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&q=80" },
+      { id: "v09-pink", sku: "RESIN-PNK", name: "Pink", attributes: { colour: "pink", finish: "gold", shape: "round" }, stock: 2, lowStockAt: 5, image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&q=80" },
+      { id: "v09-tortoise", sku: "RESIN-TOR", name: "Tortoise", attributes: { colour: "brown", finish: "gold", shape: "round" }, stock: 11, lowStockAt: 5, image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-15-mixed", name: "Mixed 15", type: "mixed", moq: 15, size: 15, description: "Pick 15" }],
     tiers: [{ minQty: 1, maxQty: 14, price: 2800 }, { minQty: 15, maxQty: null, price: 2000 }],
@@ -214,8 +212,8 @@ export const CATALOG: ProductFamily[] = [
     category: "bracelets",
     description: "Classic sparkle line bracelet.",
     material: "Cubic zirconia • Silver",
-    images: ["https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80"],
-    variants: [{ id: "v10-silver", sku: "TENN-SLV", name: "Silver", attributes: { colour: "clear", finish: "silver" }, stock: 13, lowStockAt: 4, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" }],
+    images: ["https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80"],
+    variants: [{ id: "v10-silver", sku: "TENN-SLV", name: "Silver", attributes: { colour: "clear", finish: "silver" }, stock: 13, lowStockAt: 4, image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80" }],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }],
     tiers: [{ minQty: 1, maxQty: 4, price: 6200 }, { minQty: 5, maxQty: null, price: 4800 }],
   },
@@ -230,7 +228,6 @@ export const CATALOG: ProductFamily[] = [
     variants: [{ id: "v11-gold", sku: "LAYER-GLD", name: "Gold", attributes: { colour: "gold", finish: "gold" }, stock: 21, lowStockAt: 6, image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80" }],
     packs: [{ id: "pack-single", name: "One set", type: "single", moq: 1, size: 1, description: "" }],
     tiers: [{ minQty: 1, maxQty: 7, price: 4800 }, { minQty: 8, maxQty: null, price: 3600 }],
-    isWholesaleOnly: false,
   },
   {
     id: "fam-12",
@@ -241,8 +238,8 @@ export const CATALOG: ProductFamily[] = [
     material: "Stainless steel",
     images: ["https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"],
     variants: [
-      { id: "v12-gold", sku: "INIT-GLD", name: "Gold", attributes: { colour: "gold", finish: "gold", shape: "letter" }, stock: 60, lowStockAt: 12, image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80" },
-      { id: "v12-silver", sku: "INIT-SLV", name: "Silver", attributes: { colour: "silver", finish: "silver", shape: "letter" }, stock: 55, lowStockAt: 12, image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&q=80" },
+      { id: "v12-gold", sku: "INIT-GLD", name: "Gold", attributes: { colour: "gold", finish: "gold", shape: "letter" }, stock: 60, lowStockAt: 12, image: "https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=400&q=80" },
+      { id: "v12-silver", sku: "INIT-SLV", name: "Silver", attributes: { colour: "silver", finish: "silver", shape: "letter" }, stock: 55, lowStockAt: 12, image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-20-mixed", name: "Mixed 20", type: "mixed", moq: 20, size: 20, description: "Pick letters/colours" }],
     tiers: [{ minQty: 1, maxQty: 19, price: 2600 }, { minQty: 20, maxQty: null, price: 1900 }],
@@ -266,9 +263,9 @@ export const CATALOG: ProductFamily[] = [
     category: "rings",
     description: "Thin stacking rings — mix and match.",
     material: "Gold-plated",
-    images: ["https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"],
-    variants: [{ id: "v14-gold", sku: "RING-STACK-G", name: "Gold", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 25, lowStockAt: 8, image: "https://images.unsplash.com/photo-1603561596112-0a132b757442?w=400&q=80" }],
-    packs: [{ id: "pack-single", name: "Set of 5", type: "single", moq: 1, size: 1, description: "" }],
+    images: ["https://images.unsplash.com/photo-1603561596112-0a132b757442?w=800&q=80"],
+    variants: [{ id: "v14-gold", sku: "RING-STACK-G", name: "Gold (5 pcs)", attributes: { colour: "gold", finish: "gold", shape: "round" }, stock: 25, lowStockAt: 8, image: "https://images.unsplash.com/photo-1603561596112-0a132b757442?w=400&q=80" }],
+    packs: [{ id: "pack-single", name: "Set of 5", type: "single", moq: 1, size: 1, description: "One set" }],
     tiers: [{ minQty: 1, maxQty: 9, price: 4500 }, { minQty: 10, maxQty: null, price: 3300 }],
   },
   {
@@ -278,13 +275,62 @@ export const CATALOG: ProductFamily[] = [
     category: "earrings",
     description: "Bold tassels for events — light for their size.",
     material: "Thread • Gold cap",
-    images: ["https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80"],
+    images: ["https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=800&q=80"],
     variants: [
-      { id: "v15-black-gold", sku: "TASSEL-BLK-G", name: "Black — Gold", attributes: { colour: "black", finish: "gold" }, stock: 7, lowStockAt: 5, image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80" },
+      { id: "v15-black-gold", sku: "TASSEL-BLK-G", name: "Black — Gold", attributes: { colour: "black", finish: "gold" }, stock: 7, lowStockAt: 5, image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&q=80" },
       { id: "v15-red-gold", sku: "TASSEL-RED-G", name: "Red — Gold", attributes: { colour: "red", finish: "gold" }, stock: 0, lowStockAt: 5, image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=400&q=80" },
     ],
     packs: [{ id: "pack-single", name: "Single", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-10-mixed", name: "Mixed 10", type: "mixed", moq: 10, size: 10, description: "Wholesale" }],
     tiers: [{ minQty: 1, maxQty: 9, price: 3500 }, { minQty: 10, maxQty: null, price: 2600 }],
+  },
+  // --- NEW SETS (requested): combos, chunky bangles, knuckle rings ---
+  {
+    id: "fam-16",
+    slug: "royal-trio-set",
+    name: "Royal Trio Set — Earrings + Necklace + Ring",
+    category: "sets",
+    description: "Combo set: stud earrings + layered necklace + stacking ring — boxed.",
+    material: "Gold-plated • Boxed",
+    images: ["https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=800&q=80", "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80"],
+    variants: [
+      { id: "v16-gold", sku: "TRIO-GLD", name: "Gold Trio", attributes: { colour: "gold", finish: "gold" }, stock: 20, lowStockAt: 5, image: "https://images.unsplash.com/photo-1515563123190-428e1f6c0c03?w=400&q=80" },
+      { id: "v16-silver", sku: "TRIO-SLV", name: "Silver Trio", attributes: { colour: "silver", finish: "silver" }, stock: 14, lowStockAt: 4, image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80" },
+    ],
+    packs: [{ id: "pack-single", name: "One Trio Box", type: "single", moq: 1, size: 1, description: "3 pcs boxed" }, { id: "pack-6-fixed", name: "Pack 6 Boxes", type: "fixed", moq: 6, size: 6, description: "Wholesale" }],
+    tiers: [{ minQty: 1, maxQty: 5, price: 12500 }, { minQty: 6, maxQty: null, price: 9800 }],
+    isNew: true,
+  },
+  {
+    id: "fam-17",
+    slug: "chunky-bangle-set",
+    name: "Chunky Bangle Set (4 pcs)",
+    category: "sets",
+    description: "Bold chunky bangles — wear stacked. Gold tone, 4 pcs per set.",
+    material: "Gold-plated • 4 pcs",
+    images: ["https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&q=80"],
+    variants: [
+      { id: "v17-gold", sku: "BANGLE-CHNK-G", name: "Gold — 4 pcs", attributes: { colour: "gold", finish: "gold" }, stock: 18, lowStockAt: 5, image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80" },
+      { id: "v17-rose", sku: "BANGLE-CHNK-R", name: "Rose Gold — 4 pcs", attributes: { colour: "rose", finish: "rosegold" }, stock: 12, lowStockAt: 4, image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80" },
+    ],
+    packs: [{ id: "pack-single", name: "One Set (4 pcs)", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-8-mixed", name: "Mixed 8 Sets", type: "mixed", moq: 8, size: 8, description: "Wholesale" }],
+    tiers: [{ minQty: 1, maxQty: 7, price: 8900 }, { minQty: 8, maxQty: null, price: 6900 }],
+    isNew: true,
+  },
+  {
+    id: "fam-18",
+    slug: "knuckle-ring-collection",
+    name: "Knuckle Ring Collection (8 pcs)",
+    category: "sets",
+    description: "Minimal knuckle rings — 8 pcs per set, mix of plain + crystal.",
+    material: "Gold/Silver plated • 8 pcs",
+    images: ["https://images.unsplash.com/photo-1603561596112-0a132b757442?w=800&q=80", "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"],
+    variants: [
+      { id: "v18-gold", sku: "KNUCKLE-8-G", name: "Gold — 8 pcs", attributes: { colour: "gold", finish: "gold" }, stock: 22, lowStockAt: 5, image: "https://images.unsplash.com/photo-1603561596112-0a132b757442?w=400&q=80" },
+      { id: "v18-silver", sku: "KNUCKLE-8-S", name: "Silver — 8 pcs", attributes: { colour: "silver", finish: "silver" }, stock: 16, lowStockAt: 4, image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80" },
+    ],
+    packs: [{ id: "pack-single", name: "One Set (8 pcs)", type: "single", moq: 1, size: 1, description: "" }, { id: "pack-10-mixed", name: "Mixed 10 Sets", type: "mixed", moq: 10, size: 10, description: "Wholesale" }],
+    tiers: [{ minQty: 1, maxQty: 9, price: 7200 }, { minQty: 10, maxQty: null, price: 5500 }],
+    isNew: true,
   },
 ];
 

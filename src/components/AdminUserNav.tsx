@@ -9,7 +9,7 @@ export default function AdminUserNav() {
   const pathname = usePathname();
   const isLogin = pathname === "/admin/login";
 
-  if (isLogin) return <Link href="/admin/login" className="text-sm text-plum font-semibold">Better Auth • Email+Password</Link>;
+  if (isLogin) return null;
 
   if (isPending) return <span className="text-xs text-ink-muted">Checking session…</span>;
   if (!session) {
@@ -17,7 +17,7 @@ export default function AdminUserNav() {
   }
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm hidden sm:block">{session.user.email} <span className="text-ink-muted">• {session.user.role || "admin"}</span></span>
+      <span className="text-sm hidden sm:block text-ink-muted">{session.user.email}</span>
       <button
         onClick={async () => {
           await authClient.signOut();
