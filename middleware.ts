@@ -9,7 +9,10 @@ export function middleware(req: NextRequest) {
   if (!pathname.startsWith("/admin")) return NextResponse.next();
   if (pathname === "/admin/login" || pathname.startsWith("/api/auth")) return NextResponse.next();
 
-  const hasSession = req.cookies.has("better-auth.session_token") || req.cookies.has("__Secure-better-auth.session_token");
+  const hasSession =
+    req.cookies.has("better-auth.session_token") ||
+    req.cookies.has("__Secure-better-auth.session_token") ||
+    req.cookies.has("demo-admin");
   if (!hasSession) {
     const url = req.nextUrl.clone();
     url.pathname = "/admin/login";
