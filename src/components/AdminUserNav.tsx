@@ -12,7 +12,11 @@ export default function AdminUserNav() {
   const isLogin = pathname === "/admin/login";
 
   useEffect(() => {
-    setHasDemo(document.cookie.includes("demo-admin=true"));
+    // check via API so HttpOnly cookies are also detected
+    fetch("/api/demo-login", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => setHasDemo(!!d.hasDemo))
+      .catch(() => setHasDemo(document.cookie.includes("demo-admin=true")));
   }, [pathname]);
 
   if (isLogin) return null;
