@@ -37,12 +37,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <img src={family.images[0]} alt={family.name} className="w-full h-full object-cover" />
           </div>
           <div className="grid grid-cols-4 gap-2">
-            {family.images.map((img, i) => (
+            {family.images.map((img: string, i: number) => (
               <div key={i} className={`aspect-square rounded-lg overflow-hidden border ${i === 0 ? "border-plum" : "border-border"} bg-white`}>
                 <img src={img} alt="" className="w-full h-full object-cover" />
               </div>
             ))}
-            {family.variants.slice(0, 2).map((v) => (
+            {family.variants.slice(0, 2).map((v: any) => (
               <div key={v.id} className="aspect-square rounded-lg overflow-hidden border border-border">
                 <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
               </div>

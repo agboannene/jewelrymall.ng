@@ -24,7 +24,7 @@ export default function AdminProductsPage() {
     { minQty: 12, maxQty: null, price: 1200 },
   ]);
   const [variants, setVariants] = useState([{ sku: "SKU-001", name: "Gold", colour: "gold", finish: "gold", stock: 20, lowStockAt: 5, image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80" }]);
-  const [packs, setPacks] = useState([{ name: "Single", type: "single" as const, moq: 1, size: 1, description: "Retail" }]);
+  const [packs, setPacks] = useState<Array<{ name: string; type: "single" | "mixed" | "fixed"; moq: number; size: number; description: string }>>([{ name: "Single", type: "single", moq: 1, size: 1, description: "Retail" }]);
 
   useEffect(() => {
     fetch("/api/products").then((r) => r.json()).then((d) => { if (d.products?.length) setProducts(d.products); }).catch(() => {});
