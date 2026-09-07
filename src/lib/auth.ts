@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { admin } from "better-auth/plugins";
+// @ts-ignore - types provided via src/types/better-sqlite3.d.ts
 import Database from "better-sqlite3";
 import fs from "fs";
 import path from "path";
