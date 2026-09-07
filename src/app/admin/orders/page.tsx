@@ -1,14 +1,28 @@
 "use client";
-import { MOCK_ORDERS } from "@/lib/admin";
+import { MOCK_ORDERS, MockOrder } from "@/lib/admin";
 import { formatNGN } from "@/lib/format";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AdminOrdersPage() {
+  const [orders, setOrders] = useState<MockOrder[]>(MOCK_ORDERS);
   const [filter, setFilter] = useState<"all" | string>("all");
   const [selectedId, setSelectedId] = useState<string>(MOCK_ORDERS[0].id);
-  const selected = MOCK_ORDERS.find((o) => o.id === selectedId) || MOCK_ORDERS[0];
-  const filtered = filter === "all" ? MOCK_ORDERS : MOCK_ORDERS.filter((o) => o.status === filter);
+
+  useEffect(() => {
+    fetch("/api/orders")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.orders?.length) {
+          setOrders(d.orders);
+          setSelectedId(d.orders[0].id);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const selected = orders.find((o) => o.id === selectedId) || orders[0];
+  const filtered = filter === "all" ? orders : orders.filter((o) => o.status === filter);
 
   return (
     <div className="space-y-4">

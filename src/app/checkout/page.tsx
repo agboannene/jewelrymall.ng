@@ -22,14 +22,34 @@ export default function CheckoutPage() {
 
   const total = subtotal + zone.fee;
 
-  function handlePay() {
+  const [paying, setPaying] = useState(false);
+  async function handlePay() {
     if (!name || !phone) { alert("Enter name and phone"); return; }
     if (lines.length === 0) { alert("Bag is empty"); return; }
-    // Mock Paystack verification
-    const mockRef = `JMNG-2026-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    setRef(mockRef);
-    setPaid(true);
-    // simulate ledger decrement + clear after
+    setPaying(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: { name, phone, address },
+          zone,
+          items: lines.map((l) => ({ sku: l.variantId, familyName: l.familyName, variantName: l.variantName, packName: l.packName, qty: l.qty, unitPrice: l.unitPrice, lineTotal: l.lineTotal, image: l.image, familySlug: l.familySlug })),
+          subtotal,
+          total,
+          deliveryFee: zone.fee,
+          channel: "direct",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Order failed");
+      setRef(data.reference);
+      setPaid(true);
+    } catch (e: any) {
+      alert(e.message || "Order failed");
+    } finally {
+      setPaying(false);
+    }
   }
 
   if (paid) {
@@ -111,7 +131,7 @@ export default function CheckoutPage() {
               <div className="flex justify-between"><span className="text-ink-muted">Delivery ({zone.label})</span><span className="font-semibold">{formatNGN(zone.fee)}</span></div>
               <div className="flex justify-between text-base font-bold border-t pt-2"><span>Total</span><span>{formatNGN(total)}</span></div>
             </div>
-            <button onClick={handlePay} className="w-full mt-4 bg-plum text-cream rounded-full py-3 font-semibold hover:bg-plum-light">Pay with Paystack (Test) — {formatNGN(total)}</button>
+            <button onClick={handlePay} disabled={paying} className="w-full mt-4 bg-plum text-cream rounded-full py-3 font-semibold hover:bg-plum-light disabled:opacity-50">{paying ? "Processing…" : `Pay with Paystack (Test) — ${formatNGN(total)}`}</button>
             <p className="text-xs text-ink-faint text-center mt-2">Test card 4084084084084081 • Verifies via mock webhook.</p>
           </div>
         )}

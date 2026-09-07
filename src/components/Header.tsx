@@ -22,7 +22,6 @@ export default function Header() {
           <Link href="/?cat=bracelets" className="hover:text-gold">Bracelets</Link>
           <Link href="/?cat=sets" className="hover:text-gold">Sets</Link>
           <Link href="/simulator" className="hover:text-gold">WhatsApp Simulator</Link>
-          <Link href="/admin" className="hover:text-gold bg-white/10 px-3 py-1 rounded-full">Admin</Link>
         </nav>
 
         <form
