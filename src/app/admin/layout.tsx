@@ -11,10 +11,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
         <nav className="p-3 space-y-1 text-[13px] flex-1">
           <Link href="/admin" className="flex items-center px-3 py-2 rounded-lg bg-white/10 text-cream">Overview</Link>
-          <Link href="/admin/products" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Products</Link>
-          <Link href="/admin/orders" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Orders</Link>
-          <Link href="/admin/inventory" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Inventory</Link>
-          <Link href="/simulator" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">WhatsApp</Link>
+          <Link href="/admin/products" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Products • Price</Link>
+          <Link href="/admin/orders" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Orders • Payments</Link>
+          <Link href="/admin/inventory" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Stock • Ledger</Link>
+          <Link href="/admin/customers" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Customers</Link>
+          <Link href="/admin/conversations" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Conversations</Link>
+          <Link href="/admin/staff" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Staff Access</Link>
+          <Link href="/admin/reports" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/85 hover:text-cream">Reports</Link>
           <div className="pt-4 mt-4 border-t border-white/10">
             <Link href="/" className="flex items-center px-3 py-2 rounded-lg hover:bg-white/10 text-cream/60 text-sm">← Back to Store</Link>
           </div>
@@ -32,7 +35,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin" className="px-3 py-1.5 rounded-full bg-plum text-cream text-sm shrink-0">Overview</Link>
           <Link href="/admin/products" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Products</Link>
           <Link href="/admin/orders" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Orders</Link>
-          <Link href="/admin/inventory" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Ledger</Link>
+          <Link href="/admin/inventory" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Stock</Link>
+          <Link href="/admin/customers" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Customers</Link>
+          <Link href="/admin/conversations" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Chats</Link>
+          <Link href="/admin/staff" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Staff</Link>
+          <Link href="/admin/reports" className="px-3 py-1.5 rounded-full bg-white border text-sm shrink-0">Reports</Link>
         </div>
         <div className="p-4 sm:p-6 lg:p-8">{children}</div>
       </div>
